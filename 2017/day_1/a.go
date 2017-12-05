@@ -39,7 +39,29 @@ func captcha(in []int) {
 	fmt.Println(sum)
 }
 
+// nextDigit returns the digit halfway around the array in, from index i
+func nextDigit(in []int, i int) int {
+	l := len(in)
+	jump := l / 2
+
+	if i+jump > l-1 {
+		jump -= (l - i)
+		return in[0+jump]
+	} else {
+		return in[i+jump]
+	}
+}
+
+func captcha2(in []int) {
+	for i, v := range in {
+		if v == nextDigit(in, i) {
+			sum += v
+		}
+	}
+	fmt.Println(sum)
+}
+
 func main() {
 	in := toIntArray(input)
-	captcha(in)
+	captcha2(in)
 }
