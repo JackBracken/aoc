@@ -38,12 +38,38 @@ func (r row) GreatestDifference() int {
 	return r[len(r)-1] - r[0]
 }
 
+func (r row) CommonDivisorsDivided() int {
+	result := -1
+	sort.Sort(row(r))
+
+	for i, v := range r {
+		for k := i; k < len(r); k++ {
+			// checking division of v into r[k]
+			if v != r[k] {
+				if r[k]%v == 0 {
+					result = r[k] / v
+				}
+			}
+		}
+	}
+
+	return result
+}
+
 type spreadsheet []row
 
 func (s spreadsheet) Checksum() int {
 	sum := 0
 	for _, v := range s {
 		sum += v.GreatestDifference()
+	}
+	return sum
+}
+
+func (s spreadsheet) CDChecksum() int {
+	sum := 0
+	for _, v := range s {
+		sum += v.CommonDivisorsDivided()
 	}
 	return sum
 }
@@ -69,5 +95,5 @@ func main() {
 		s = append(s, r)
 	}
 
-	fmt.Println(s.Checksum())
+	fmt.Println(s.CDChecksum())
 }
